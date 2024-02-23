@@ -1,0 +1,12 @@
+.container {
+	position: relative;
+	top: 60px;
+	padding: 0 2rem;
+}
+.avatar {
+	display: inline-block;
+	position: relative;
+	top: 10px;
+	width: 40px;
+	border-radius: 50%;
+}

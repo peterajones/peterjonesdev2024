@@ -1,0 +1,76 @@
+.nav {
+	border-bottom: 1px solid rebeccapurple;
+	width: 100%;
+	height: 60px;
+	position: fixed;
+	background-color: rgba(255, 255, 255, 0.95);
+	-webkit-box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.85);
+	box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.85);
+	top: 0;
+	z-index: 10;
+	-webkit-transition: background-color 0.25s ease-in;
+	transition: background-color 0.25s ease-in;
+}
+
+.navContent {
+	position: relative;
+	width: 80vw;
+	margin: auto;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+}
+.toplinks {
+	width: max-content;
+}
+.topNavLinks a {
+	margin-left: 20px;
+}
+
+/* Toggle Theme */
+svg.svg-inline--fa.fa-sun,
+svg.svg-inline--fa.fa-moon,
+svg.svg-inline--fa.fa-bell {
+	font-size: 22px;
+	color: rebeccapurple;
+	-webkit-transition: color 0.35s ease-in;
+	transition: color 0.35s ease-in;
+}
+.dark svg.svg-inline--fa.fa-sun,
+.dark svg.svg-inline--fa.fa-moon,
+.dark svg.svg-inline--fa.fa-bell {
+	color: #ffa804;
+}
+
+button.faIcon {
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	margin-left: 20px;
+	width: 34px;
+	height: 35px;
+	position: relative;
+	top: 4px;
+}
+
+.avatar {
+	position: relative;
+	top: 7px;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+}
+a .avatar-link {
+	position: relative;
+  top: 7px;
+  display: inline-block;
+	border-radius: 50%;
+}
+/*# sourceMappingURL=Navbar.module.css.map */
