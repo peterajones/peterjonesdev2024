@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Script from 'next/script';
+import GoogleMap from '../GoogleMaps';
 import PlacesAutocomplete, {
 	geocodeByAddress,
 	getLatLng
@@ -187,11 +188,12 @@ const SearchComponent = () => {
 
 	return (
 		<>
-			<Script
+			{/* <Script
 				src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBdV3luaZ7wisyYwIiRm4XpYwak30qa8ck&amp;libraries=places'
 				defer
 				asyncstrategy='beforeInteractive'
-			/>
+			/> */}
+			<GoogleMap />
 			<div className='weatherContainer'>
 				<h1>
 					Weather App <span className='tagline'>with 5 day forecast</span>

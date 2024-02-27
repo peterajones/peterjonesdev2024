@@ -19,11 +19,11 @@ export default function Index() {
 
 	return (
 		<>
-			<Script
+			{/* <Script
 				src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBdV3luaZ7wisyYwIiRm4XpYwak30qa8ck&amp;libraries=places'
 				defer
 				asyncstrategy='beforeInteractive'
-			/>
+			/> */}
 			<Head>
 				<title>Peter Jones | Weather App</title>
 			</Head>
