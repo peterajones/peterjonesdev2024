@@ -18,7 +18,7 @@ const Data = () => {
 		googleMapScript.setAttribute('async', '');
 		googleMapScript.setAttribute('defer', '');
 		window.document.body.appendChild(googleMapScript);
-		window.document.body.appendChild(googleMapScript);
+		// window.document.body.appendChild(googleMapScript);
 
 		const fetchUsers = async () => {
 			setLoading(true);

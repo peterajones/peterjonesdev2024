@@ -30,7 +30,6 @@ export default function Home() {
 		<>
 			<Head>
 				<title>Peter Jones | Homepage</title>
-				{/* <script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBdV3luaZ7wisyYwIiRm4XpYwak30qa8ck&amp;libraries=places' async defer></script> */}
 			</Head>
 			<Banner src='/images/banners/CanadianFlagReflection.jpg' />
 			<div className='content'>

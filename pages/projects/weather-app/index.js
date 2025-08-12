@@ -17,13 +17,12 @@ export default function Index() {
 		setCodeBlocks(!codeBlocks);
 	};
 
+	const apikey = process.env.NEXT_PUBLIC_REACT_APP_GOOGLE_MAPS_API_KEY;
+	console.log(`your api key is: ${apikey}`);
+
 	return (
 		<>
-			{/* <Script
-				src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBdV3luaZ7wisyYwIiRm4XpYwak30qa8ck&amp;libraries=places'
-				defer
-				asyncstrategy='beforeInteractive'
-			/> */}
+			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALw2Ka68OgdctxI1xicaOiaQQKSQeiN4k&libraries=places" loading="asyc" defer></script>
 			<Head>
 				<title>Peter Jones | Weather App</title>
 			</Head>
@@ -162,10 +161,10 @@ export default function Index() {
 						</span>
 					</div>
 				</div>
-				{/* <CodeBlocks
+				<CodeBlocks
 					codeBlocks={codeBlocks}
 					toggleCodeBlocks={toggleCodeBlocks}
-				/> */}
+				/>
 			</div>
 		</>
 	);

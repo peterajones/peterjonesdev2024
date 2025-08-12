@@ -15,7 +15,8 @@ function Maps(props) {
 
 	return (
 		<LoadScript
-			googleMapsApiKey = {process.env.NEXT_PUBLIC_REACT_APP_GOOGLE_MAPS_API_KEY}
+			// googleMapsApiKey = {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+			googleMapsApiKey = 'AIzaSyALw2Ka68OgdctxI1xicaOiaQQKSQeiN4k'
 		>
 		<GoogleMap
 			mapContainerStyle={containerStyle}

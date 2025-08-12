@@ -1,6 +1,9 @@
+"use client"
+
 import { useState } from 'react';
-import Script from 'next/script';
-import GoogleMap from '../GoogleMaps';
+// import Script from 'next/script';
+// import GoogleMap from '../GoogleMaps';
+import {LoadScript} from '@react-google-maps/api';
 import PlacesAutocomplete, {
 	geocodeByAddress,
 	getLatLng
@@ -8,6 +11,7 @@ import PlacesAutocomplete, {
 
 const weatherURL = 'https://api.openweathermap.org/data/2.5/weather';
 const forecastURL = 'https://api.openweathermap.org/data/2.5/forecast';
+// const apikey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 const days = [
 	'Sunday',
@@ -42,6 +46,7 @@ const SearchComponent = () => {
 		lat: null,
 		lng: null
 	});
+	console.log(address);
 
 	const searchOptions = {
 		types: ['(cities)']
@@ -187,17 +192,10 @@ const SearchComponent = () => {
 	};
 
 	return (
-		<>
-			{/* <Script
-				src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBdV3luaZ7wisyYwIiRm4XpYwak30qa8ck&amp;libraries=places'
-				defer
-				asyncstrategy='beforeInteractive'
-			/> */}
-			<GoogleMap />
 			<div className='weatherContainer'>
 				<h1>
 					Weather App <span className='tagline'>with 5 day forecast</span>
-				</h1>
+			</h1>
 				<PlacesAutocomplete
 					value={address}
 					onChange={setAddress}
@@ -240,7 +238,7 @@ const SearchComponent = () => {
 												backgroundColor: '#ffffff',
 												cursor: 'pointer',
 												padding: '10px 0px'
-										  };
+										};
 									return (
 										<div
 											{...getSuggestionItemProps(suggestion, {
@@ -259,7 +257,6 @@ const SearchComponent = () => {
 				<div className='weatherOutput'></div>
 				<div id='forecastOutput'></div>
 			</div>
-		</>
 	);
 };
 
