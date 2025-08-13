@@ -38,14 +38,7 @@ export default function Home() {
 
 					<section className='section section-one'>
 						<h2>Welcome</h2>
-						{session ? (
-							<p>
-								Thank you for visiting my website{' '}
-								<span className='display-name'>{session.user.name}</span>.
-							</p>
-						) : (
-							<p>Thank you for visiting my website.</p>
-						)}
+						<p>Thank you for visiting my website.</p>
 						<p>
 							I am a Front End Web Developer in Toronto and I have been building
 							websites for more than 10 years. My background is making websites
