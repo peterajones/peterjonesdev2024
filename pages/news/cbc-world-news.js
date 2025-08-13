@@ -31,7 +31,6 @@ const CBCWorldNews = () => {
 					const pubDate = item.querySelector('pubDate').textContent;
 					const category = item.querySelector('category').textContent;
 					const guid = item.querySelector('guid').textContent;
-					console.log(description);
 
 					html += `
 						<article>

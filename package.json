@@ -36,6 +36,7 @@
 		"react-syntax-highlighter": "^15.5.0",
 		"react-transition-group": "^4.4.5",
 		"sass": "^1.72.0",
+		"sharp": "^0.34.3",
 		"url": "^0.11.3"
 	},
 	"devDependencies": {
