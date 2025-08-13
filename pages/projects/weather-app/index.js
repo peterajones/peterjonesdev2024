@@ -17,12 +17,11 @@ export default function Index() {
 		setCodeBlocks(!codeBlocks);
 	};
 
-	const apikey = process.env.NEXT_PUBLIC_REACT_APP_GOOGLE_MAPS_API_KEY;
+	const apikey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 	console.log(`your api key is: ${apikey}`);
 
 	return (
 		<>
-			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALw2Ka68OgdctxI1xicaOiaQQKSQeiN4k&libraries=places" loading="asyc" defer></script>
 			<Head>
 				<title>Peter Jones | Weather App</title>
 			</Head>
