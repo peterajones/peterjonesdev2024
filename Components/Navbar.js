@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { signIn, signOut, useSession } from 'next-auth/react';
+// import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Image from "next/legacy/image";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,8 +16,9 @@ import UpdatesList from './UpdatesList';
 library.add(faSun, faMoon, faBell, faLock, faUnlock);
 
 export default function Navbar() {
-	const { data: session, status } = useSession();
-	const user = session;
+	// const { data: session, status } = useSession();
+	// const user = session;
+	const session = null;
 	const [theme, setTheme] = useState('');
 	const [modal, setModal] = useState(false);
 

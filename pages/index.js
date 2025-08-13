@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+// import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Banner from '../Components/Banner';
 
 export default function Home() {
-	const { data: session } = useSession();
+	// const { data: session } = useSession();
 	// console.log(session);
-	if (session) {
-		const { user } = session.user;
-		console.log(session.user.name);
-	}
+	// if (session) {
+	// 	const { user } = session.user;
+	// 	console.log(session.user.name);
+	// }
 	const [didMount, setDidMount] = useState(false);
 	const [scroll, setScroll] = useState(0);
 
