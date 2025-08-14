@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GoogleMap, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
@@ -8,10 +8,20 @@ const containerStyle = {
 
 
 function Maps(props) {
+	const [isClient, setIsClient] = useState(false);
+	
+	useEffect(() => {
+		setIsClient(true);
+	}, []);
+
 	const center = {
-		lat: parseInt(props.lat),
-		lng: parseInt(props.lng)
+		lat: parseFloat(props.lat),
+		lng: parseFloat(props.lng)
 	};
+
+	if (!isClient) {
+		return <div style={containerStyle}>Loading map...</div>;
+	}
 
 	return (
 		<GoogleMap
@@ -23,8 +33,8 @@ function Maps(props) {
 				title={props.name}
 				name={props.location}
 				position={{
-					lat: parseInt(props.lat),
-					lng: parseInt(props.lng)
+					lat: parseFloat(props.lat),
+					lng: parseFloat(props.lng)
 				}}
 			/>
 		</GoogleMap>

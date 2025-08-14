@@ -25,7 +25,12 @@ const Users = ({ users, loading }) => {
 	}
 
 	return (
-		<LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
+		<LoadScript 
+			googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+			loadingElement={<div>Loading Maps...</div>}
+			async={true}
+			defer={true}
+		>
 			<div className='info'>
 				<ul className='p-list'>
 					{users.map(user => (
