@@ -10,6 +10,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const Users = ({ users, loading }) => {
+	console.log('Users component - loading:', loading, 'users:', users);
+	
 	if (loading) {
 		return (
 			<>
@@ -24,12 +26,18 @@ const Users = ({ users, loading }) => {
 		);
 	}
 
+	if (!users || users.length === 0) {
+		return <div>No users found</div>;
+	}
+
 	return (
 		<LoadScript 
 			googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
 			loadingElement={<div>Loading Maps...</div>}
 			async={true}
 			defer={true}
+			onError={(error) => console.error('Google Maps LoadScript error:', error)}
+			onLoad={() => console.log('Google Maps API loaded for pagination')}
 		>
 			<div className='info'>
 				<ul className='p-list'>
