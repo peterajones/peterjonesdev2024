@@ -1,17 +1,11 @@
 "use client"
 
-import { useState } from 'react';
-// import Script from 'next/script';
-// import GoogleMap from '../GoogleMaps';
+import { useState, useRef, useEffect } from 'react';
 import {LoadScript} from '@react-google-maps/api';
-import PlacesAutocomplete, {
-	geocodeByAddress,
-	getLatLng
-} from 'react-places-autocomplete';
 
 const weatherURL = 'https://api.openweathermap.org/data/2.5/weather';
 const forecastURL = 'https://api.openweathermap.org/data/2.5/forecast';
-// const apikey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+const libraries = ['places'];
 
 const days = [
 	'Sunday',
@@ -46,11 +40,11 @@ const SearchComponent = () => {
 		lat: null,
 		lng: null
 	});
+	const [suggestions, setSuggestions] = useState([]);
+	const [showSuggestions, setShowSuggestions] = useState(false);
+	const autocompleteService = useRef(null);
+	const placesService = useRef(null);
 	console.log(address);
-
-	const searchOptions = {
-		types: ['(cities)']
-	};
 
 	const handleClick = () => {
 		let weatherOutput = document.getElementsByClassName('weatherOutput')[0];
@@ -59,14 +53,75 @@ const SearchComponent = () => {
 		forecastOutput.innerHTML = '';
 		setAddress('');
 		setCoordinates({ lat: null, lng: null });
+		setShowSuggestions(false);
 	};
 
-	const handleSelect = async address => {
-		const results = await geocodeByAddress(address);
-		const latLng = await getLatLng(results[0]);
-		const searchTerm = results[0].formatted_address;
-		setAddress(searchTerm);
-		setCoordinates(latLng);
+	const handleInputChange = (e) => {
+		const value = e.target.value;
+		setAddress(value);
+		
+		console.log('Input changed:', value);
+		console.log('Autocomplete service available:', !!autocompleteService.current);
+		
+		if (value.length > 2 && autocompleteService.current) {
+			const request = {
+				input: value,
+				types: ['(cities)']
+			};
+			
+			console.log('Making autocomplete request:', request);
+			
+			// Add timeout to detect if callback is never called
+			const timeoutId = setTimeout(() => {
+				console.error('Autocomplete request timed out - callback never called');
+				console.error('This usually indicates:');
+				console.error('1. Billing not enabled for Google Cloud project');
+				console.error('2. Places API quota exceeded');
+				console.error('3. API key lacks Places API permissions');
+				console.error('4. Network or CORS issues');
+			}, 5000);
+			
+			autocompleteService.current.getPlacePredictions(request, (predictions, status) => {
+				clearTimeout(timeoutId);
+				console.log('Autocomplete response:', { status, predictions });
+				console.log('Status details:', {
+					statusText: Object.keys(window.google.maps.places.PlacesServiceStatus).find(
+						key => window.google.maps.places.PlacesServiceStatus[key] === status
+					),
+					statusValue: status
+				});
+				
+				if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
+					console.log('Setting suggestions:', predictions);
+					setSuggestions(predictions);
+					setShowSuggestions(true);
+				} else {
+					console.log('Autocomplete failed. Status:', status, 'Predictions:', predictions);
+					setSuggestions([]);
+					setShowSuggestions(false);
+				}
+			});
+		} else {
+			setSuggestions([]);
+			setShowSuggestions(false);
+		}
+	};
+
+	const handleSelect = (placeId, description) => {
+		setAddress(description);
+		setShowSuggestions(false);
+		
+		if (placesService.current) {
+			const request = { placeId: placeId };
+			placesService.current.getDetails(request, (place, status) => {
+				if (status === window.google.maps.places.PlacesServiceStatus.OK && place.geometry) {
+					setCoordinates({
+						lat: place.geometry.location.lat(),
+						lng: place.geometry.location.lng()
+					});
+				}
+			});
+		}
 	};
 
 	const getData = () => {
@@ -191,73 +246,73 @@ const SearchComponent = () => {
 		};
 	};
 
+	const onLoad = () => {
+		console.log('LoadScript onLoad called');
+		console.log('Google maps available:', !!window.google?.maps?.places);
+		
+		if (window.google?.maps?.places) {
+			autocompleteService.current = new window.google.maps.places.AutocompleteService();
+			placesService.current = new window.google.maps.places.PlacesService(document.createElement('div'));
+			console.log('Services initialized successfully');
+		} else {
+			console.error('Google Maps Places API not available');
+		}
+	};
+
 	return (
 		<LoadScript
 			googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-			libraries={['places']}
+			libraries={libraries}
+			onLoad={onLoad}
 		>
 			<div className='weatherContainer'>
 				<h1>
 					Weather App <span className='tagline'>with 5 day forecast</span>
 			</h1>
-				<PlacesAutocomplete
-					value={address}
-					onChange={setAddress}
-					onSelect={handleSelect}
-					searchOptions={searchOptions}
-				>
-					{({ getInputProps, suggestions, getSuggestionItemProps }) => (
-						<div className='searchSection'>
-							<div className='searchInputs'>
-								<input
-									{...getInputProps({
-										placeholder: 'Enter a City ...',
-										className: 'weatherSearchInput'
-									})}
-									onClick={handleClick}
-									aria-label='weather-search-input'
-								/>
-								<input
-									className='weatherGoBtn'
-									type='submit'
-									value='Go!'
-									onClick={getData}
-								/>
-							</div>
-							<div className='autocompleteDropdownContainer'>
-								{/* {loading && <div className="loading">Loading...</div>} */}
-								{suggestions.map(suggestion => {
-									const className = suggestion.active
-										? 'suggestion-item--active'
-										: 'suggestion-item';
-									// inline style for demonstration purpose
-									const style = suggestion.active
-										? {
-												backgroundColor: 'rgba(51, 89, 153,0.75)',
-												cursor: 'pointer',
-												padding: '10px 0px',
-												color: '#ffffff'
-										}
-										: {
-												backgroundColor: '#ffffff',
-												cursor: 'pointer',
-												padding: '10px 0px'
-										};
-									return (
-										<div
-											{...getSuggestionItemProps(suggestion, {
-												className,
-												style
-											})}
-										>
-											<span>{suggestion.description}</span>
-										</div>
-									);
-								})}
-							</div>
+				<div className='searchSection'>
+					<div className='searchInputs'>
+						<input
+							value={address}
+							onChange={handleInputChange}
+							onClick={handleClick}
+							placeholder='Enter a City ...'
+							className='weatherSearchInput'
+							aria-label='weather-search-input'
+						/>
+						<input
+							className='weatherGoBtn'
+							type='submit'
+							value='Go!'
+							onClick={getData}
+						/>
+					</div>
+					{showSuggestions && (
+						<div className='autocompleteDropdownContainer'>
+							{suggestions.map((suggestion) => (
+								<div
+									key={suggestion.place_id}
+									className='suggestion-item'
+									style={{
+										backgroundColor: '#ffffff',
+										cursor: 'pointer',
+										padding: '10px 0px'
+									}}
+									onMouseEnter={(e) => {
+										e.target.style.backgroundColor = 'rgba(51, 89, 153,0.75)';
+										e.target.style.color = '#ffffff';
+									}}
+									onMouseLeave={(e) => {
+										e.target.style.backgroundColor = '#ffffff';
+										e.target.style.color = 'initial';
+									}}
+									onClick={() => handleSelect(suggestion.place_id, suggestion.description)}
+								>
+									<span>{suggestion.description}</span>
+								</div>
+							))}
 						</div>
 					)}
-				</PlacesAutocomplete>
+				</div>
 				<div className='weatherOutput'></div>
 				<div id='forecastOutput'></div>
 			</div>
