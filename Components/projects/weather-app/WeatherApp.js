@@ -192,6 +192,10 @@ const SearchComponent = () => {
 	};
 
 	return (
+		<LoadScript
+			googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+			libraries={['places']}
+		>
 			<div className='weatherContainer'>
 				<h1>
 					Weather App <span className='tagline'>with 5 day forecast</span>
@@ -257,6 +261,7 @@ const SearchComponent = () => {
 				<div className='weatherOutput'></div>
 				<div id='forecastOutput'></div>
 			</div>
+		</LoadScript>
 	);
 };
 
