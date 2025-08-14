@@ -33,6 +33,67 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
+## Troubleshooting
+
+### Google Maps API Issues
+
+#### Problem: `Google Maps JavaScript API warning: InvalidKey`
+**Solution:** Ensure your API key is properly configured in environment variables:
+- Add `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_api_key_here` to `.env.local`
+- For Netlify deployment, add the same environment variable in Site Settings → Environment Variables
+- Verify your API key has the correct permissions for Maps JavaScript API and Places API
+
+#### Problem: `Google Maps JavaScript API has been loaded directly without loading=async`
+**Solution:** Configure LoadScript components with async loading:
+```javascript
+<LoadScript 
+  googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+  async={true}
+  defer={true}
+  loadingElement={<div>Loading Maps...</div>}
+>
+```
+
+#### Problem: `google api is already presented`
+**Solution:** This occurs when multiple components try to load the Google Maps API. Ensure:
+- Remove any global Maps API script tags from `Layout.js`
+- Use individual `LoadScript` components in each page/component that needs Maps
+- Avoid loading the API globally if using `@react-google-maps/api`
+
+### Hydration Errors
+
+#### Problem: `Hydration failed because the initial UI does not match what was rendered on the server`
+**Solution:** For components using Google Maps or browser-only APIs, use Next.js dynamic imports:
+
+```javascript
+import dynamic from 'next/dynamic';
+
+const WeatherApp = dynamic(() => import('../components/WeatherApp'), {
+  ssr: false,
+  loading: () => <div>Loading...</div>
+});
+```
+
+Alternatively, implement client-side only rendering:
+```javascript
+const [mounted, setMounted] = useState(false);
+
+useEffect(() => {
+  setMounted(true);
+}, []);
+
+if (!mounted) {
+  return <div>Loading...</div>;
+}
+```
+
+### Environment Variables
+
+Ensure all required environment variables are set:
+- `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` - For Google Maps and Places API
+- `NEXT_PUBLIC_OPENWEATHER_API_KEY` - For weather data
+- `NEXT_PUBLIC_NEWSAPI_KEY` - For news feeds
+
 ## Documentation, videos, how-to's etc...
 1. [YouTube tutorial](https://www.youtube.com/watch?v=AdcktATbd-I)
 2. [NextAuth.js Documentation](https://next-auth.js.org/)
