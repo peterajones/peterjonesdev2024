@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GoogleMap, Marker, LoadScript } from '@react-google-maps/api';
+import { GoogleMap, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '260px',
@@ -14,13 +14,9 @@ function Maps(props) {
 	};
 
 	return (
-		<LoadScript
-			// googleMapsApiKey = {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-			googleMapsApiKey = 'AIzaSyALw2Ka68OgdctxI1xicaOiaQQKSQeiN4k'
-		>
 		<GoogleMap
 			mapContainerStyle={containerStyle}
-      center={center}
+			center={center}
 			zoom={2}
 		>
 			<Marker
@@ -32,7 +28,6 @@ function Maps(props) {
 				}}
 			/>
 		</GoogleMap>
-		</LoadScript>
 	)
 }
 
