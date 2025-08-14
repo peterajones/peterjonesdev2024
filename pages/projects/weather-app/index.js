@@ -2,8 +2,13 @@ import { useState } from 'react';
 import Script from 'next/script';
 import Head from 'next/head';
 import Link from 'next/link';
-import WeatherApp from '../../../Components/projects/weather-app/WeatherApp';
+import dynamic from 'next/dynamic';
 import CodeBlocks from '../../../Components/projects/weather-app/code-blocks';
+
+const WeatherApp = dynamic(() => import('../../../Components/projects/weather-app/WeatherApp'), {
+	ssr: false,
+	loading: () => <div className='weatherContainer'><h1>Loading Weather App...</h1></div>
+});
 
 export default function Index() {
 	const [codeDescription, setCodeDescription] = useState(false);

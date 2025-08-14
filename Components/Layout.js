@@ -9,11 +9,6 @@ const Layout = ({ children }) => {
 		<>
 			<Head>
 				<link rel='shortcut icon' href='/favicon.png' type='image/x-icon' />
-				<script 
-					src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
-					async 
-					defer
-				></script>
 				<meta
 					name='keywords'
 					content='Web Development, HTML5, CSS3, CSS, JavaScript, RSS News Feeds, ReactJS, NextJS'

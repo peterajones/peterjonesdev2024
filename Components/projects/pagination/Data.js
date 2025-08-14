@@ -14,16 +14,16 @@ const Data = () => {
 	const [isActive, setIsActive] = useState(true);
 
 	useEffect(() => {
-		const googleMapScript = document.createElement('script');
-		googleMapScript.setAttribute('async', '');
-		googleMapScript.setAttribute('defer', '');
-		window.document.body.appendChild(googleMapScript);
-		// window.document.body.appendChild(googleMapScript);
-
 		const fetchUsers = async () => {
 			setLoading(true);
-			const res = await axios.get(API);
-			setUsers(res.data);
+			try {
+				console.log('Fetching users from:', API);
+				const res = await axios.get(API);
+				console.log('Users fetched:', res.data);
+				setUsers(res.data);
+			} catch (error) {
+				console.error('Error fetching users:', error);
+			}
 			setLoading(false);
 		};
 		fetchUsers();

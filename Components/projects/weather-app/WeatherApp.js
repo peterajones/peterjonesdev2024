@@ -35,7 +35,8 @@ const months = [
 ];
 
 const SearchComponent = () => {
-	const [address, setAddress] = useState('Toronto, ON, Canada');
+	const [mounted, setMounted] = useState(false);
+	const [address, setAddress] = useState('');
 	const [coordinates, setCoordinates] = useState({
 		lat: null,
 		lng: null
@@ -44,6 +45,16 @@ const SearchComponent = () => {
 	const [showSuggestions, setShowSuggestions] = useState(false);
 	const autocompleteService = useRef(null);
 	const placesService = useRef(null);
+	
+	useEffect(() => {
+		setMounted(true);
+		setAddress('Toronto, ON, Canada');
+	}, []);
+	
+	if (!mounted) {
+		return <div className='weatherContainer'><h1>Loading Weather App...</h1></div>;
+	}
+	
 	console.log(address);
 
 	const handleClick = () => {
@@ -264,6 +275,7 @@ const SearchComponent = () => {
 			googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
 			libraries={libraries}
 			onLoad={onLoad}
+			loadingElement={<div>Loading Google Maps...</div>}
 		>
 			<div className='weatherContainer'>
 				<h1>
