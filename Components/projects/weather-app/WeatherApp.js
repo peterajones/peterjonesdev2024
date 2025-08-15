@@ -69,16 +69,11 @@ const SearchComponent = () => {
 		const value = e.target.value;
 		setAddress(value);
 		
-		console.log('Input changed:', value);
-		console.log('Autocomplete service available:', !!autocompleteService.current);
-		
 		if (value.length > 2 && autocompleteService.current) {
 			const request = {
 				input: value,
 				types: ['(cities)']
 			};
-			
-			console.log('Making autocomplete request:', request);
 			
 			// Add timeout to detect if callback is never called
 			const timeoutId = setTimeout(() => {
@@ -92,16 +87,8 @@ const SearchComponent = () => {
 			
 			autocompleteService.current.getPlacePredictions(request, (predictions, status) => {
 				clearTimeout(timeoutId);
-				console.log('Autocomplete response:', { status, predictions });
-				console.log('Status details:', {
-					statusText: Object.keys(window.google.maps.places.PlacesServiceStatus).find(
-						key => window.google.maps.places.PlacesServiceStatus[key] === status
-					),
-					statusValue: status
-				});
 				
 				if (status === window.google.maps.places.PlacesServiceStatus.OK && predictions) {
-					console.log('Setting suggestions:', predictions);
 					setSuggestions(predictions);
 					setShowSuggestions(true);
 				} else {
