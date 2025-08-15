@@ -17,9 +17,7 @@ const Data = () => {
 		const fetchUsers = async () => {
 			setLoading(true);
 			try {
-				console.log('Fetching users from:', API);
 				const res = await axios.get(API);
-				console.log('Users fetched:', res.data);
 				setUsers(res.data);
 			} catch (error) {
 				console.error('Error fetching users:', error);
