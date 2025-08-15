@@ -23,8 +23,6 @@ export default function Index() {
 	};
 
 	const apikey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-	console.log(`your api key is: ${apikey}`);
-
 	return (
 		<>
 			<Head>

@@ -54,8 +54,6 @@ const SearchComponent = () => {
 	if (!mounted) {
 		return <div className='weatherContainer'><h1>Loading Weather App...</h1></div>;
 	}
-	
-	console.log(address);
 
 	const handleClick = () => {
 		let weatherOutput = document.getElementsByClassName('weatherOutput')[0];
@@ -258,13 +256,9 @@ const SearchComponent = () => {
 	};
 
 	const onLoad = () => {
-		console.log('LoadScript onLoad called');
-		console.log('Google maps available:', !!window.google?.maps?.places);
-		
 		if (window.google?.maps?.places) {
 			autocompleteService.current = new window.google.maps.places.AutocompleteService();
 			placesService.current = new window.google.maps.places.PlacesService(document.createElement('div'));
-			console.log('Services initialized successfully');
 		} else {
 			console.error('Google Maps Places API not available');
 		}
