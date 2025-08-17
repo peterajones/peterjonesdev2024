@@ -35,57 +35,119 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Troubleshooting
 
-### Google Maps API Issues
+### React Hydration Errors ✅ FIXED
 
-#### Problem: `Google Maps JavaScript API warning: InvalidKey`
-**Solution:** Ensure your API key is properly configured in environment variables:
-- Add `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_api_key_here` to `.env.local`
-- For Netlify deployment, add the same environment variable in Site Settings → Environment Variables
-- Verify your API key has the correct permissions for Maps JavaScript API and Places API
+#### Problem: React Error #418 - Hydration Failed
+**Cause:** Server-side and client-side rendering produced different outputs due to:
+- `typeof window !== 'undefined'` checks inside `useEffect` hooks
+- `new Date()` calls during component render (different server/client times)
+- `localStorage` access during initial render
 
-#### Problem: `Google Maps JavaScript API has been loaded directly without loading=async`
-**Solution:** Configure LoadScript components with async loading:
+**Solution Implemented:**
+1. **Removed unnecessary window checks:** `useEffect` only runs on client-side, so `typeof window` checks are redundant
+2. **Fixed Footer date rendering:** Moved `new Date()` to `useEffect` to ensure consistent initial rendering
+3. **Fixed localStorage hydration:** Set consistent default state values, only read localStorage in `useEffect`
+4. **Fixed Navbar theme state:** Initialize with consistent default ('light'), update via `useEffect`
+
 ```javascript
-<LoadScript 
-  googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-  async={true}
-  defer={true}
-  loadingElement={<div>Loading Maps...</div>}
->
+// ❌ Before - causes hydration mismatch
+const Footer = () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  return <footer>Copyright &copy;{year}</footer>;
+};
+
+// ✅ After - consistent hydration
+const Footer = () => {
+  const [year, setYear] = useState(new Date().getFullYear());
+  
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+  
+  return <footer>Copyright &copy;{year}</footer>;
+};
 ```
+
+### React Hooks Order Violation ✅ FIXED
+
+#### Problem: "React has detected a change in the order of Hooks"
+**Cause:** Adding new hooks or changing hooks order between renders
+
+**Solution:** Maintained consistent hooks order by consolidating `useEffect` hooks instead of adding new ones.
+
+### Google Maps API Issues ✅ FIXED
 
 #### Problem: `google api is already presented`
-**Solution:** This occurs when multiple components try to load the Google Maps API. Ensure:
-- Remove any global Maps API script tags from `Layout.js`
-- Use individual `LoadScript` components in each page/component that needs Maps
-- Avoid loading the API globally if using `@react-google-maps/api`
+**Cause:** Multiple `LoadScript` components trying to load Google Maps API simultaneously
 
-### Hydration Errors
-
-#### Problem: `Hydration failed because the initial UI does not match what was rendered on the server`
-**Solution:** For components using Google Maps or browser-only APIs, use Next.js dynamic imports:
+**Solution Implemented - MapsProvider Pattern:**
+1. **Created centralized MapsProvider:** Single `LoadScript` component in `Components/MapsProvider.js`
+2. **Added to Layout:** Wraps entire app with one Maps instance
+3. **Removed individual LoadScript components** from WeatherApp and pagination components
 
 ```javascript
-import dynamic from 'next/dynamic';
+// Components/MapsProvider.js
+import { LoadScript } from '@react-google-maps/api';
 
-const WeatherApp = dynamic(() => import('../components/WeatherApp'), {
-  ssr: false,
-  loading: () => <div>Loading...</div>
-});
+const MapsProvider = ({ children }) => {
+  return (
+    <LoadScript
+      googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+      libraries={['places']}
+      preventGoogleFontsLoading={true}
+      region="US"
+      language="en"
+    >
+      {children}
+    </LoadScript>
+  );
+};
+
+// Components/Layout.js
+<MapsProvider>
+  <Navbar />
+  <div className='wrapper'>{children}</div>
+  <Footer />
+</MapsProvider>
 ```
 
-Alternatively, implement client-side only rendering:
+#### Problem: Google Maps CSP (Content Security Policy) test errors
+**Cause:** Missing or restrictive Content Security Policy headers
+
+**Solution Implemented:**
+Added CSP headers to `next.config.js`:
+
 ```javascript
-const [mounted, setMounted] = useState(false);
-
-useEffect(() => {
-  setMounted(true);
-}, []);
-
-if (!mounted) {
-  return <div>Loading...</div>;
+async headers() {
+  return [
+    {
+      source: '/(.*)',
+      headers: [
+        {
+          key: 'Content-Security-Policy',
+          value: `
+            default-src 'self';
+            script-src 'self' 'unsafe-eval' 'unsafe-inline' https://maps.googleapis.com https://maps.gstatic.com;
+            style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+            font-src 'self' https://fonts.gstatic.com;
+            img-src 'self' data: https: blob:;
+            connect-src 'self' https://api.openweathermap.org https://maps.googleapis.com https://jsonplaceholder.typicode.com;
+            frame-src 'self' https://maps.google.com;
+          `.replace(/\s{2,}/g, ' ').trim()
+        }
+      ]
+    }
+  ]
 }
 ```
+
+### Next.js Link Component Warnings ✅ FIXED
+
+#### Problem: "Function components cannot be given refs"
+**Cause:** Using deprecated `legacyBehavior` prop with Next.js Link components
+
+**Solution:** Removed unnecessary `legacyBehavior` props from Link components wrapping Image elements in Navbar.
 
 ### Environment Variables
 

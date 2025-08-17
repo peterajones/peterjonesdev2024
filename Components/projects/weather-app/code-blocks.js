@@ -348,9 +348,7 @@ p.error-msg {
 `;
 
 	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			Prism.highlightAll();
-		}
+		Prism.highlightAll();
 	}, []);
 
 	return (

@@ -1,11 +1,9 @@
 "use client"
 
 import { useState, useRef, useEffect } from 'react';
-import {LoadScript} from '@react-google-maps/api';
 
 const weatherURL = 'https://api.openweathermap.org/data/2.5/weather';
 const forecastURL = 'https://api.openweathermap.org/data/2.5/forecast';
-const libraries = ['places'];
 
 const days = [
 	'Sunday',
@@ -49,6 +47,11 @@ const SearchComponent = () => {
 	useEffect(() => {
 		setMounted(true);
 		setAddress('Toronto, ON, Canada');
+		// Initialize Google Maps Places API when component mounts
+		if (window.google?.maps?.places) {
+			autocompleteService.current = new window.google.maps.places.AutocompleteService();
+			placesService.current = new window.google.maps.places.PlacesService(document.createElement('div'));
+		}
 	}, []);
 	
 	if (!mounted) {
@@ -252,64 +255,57 @@ const SearchComponent = () => {
 	};
 
 	return (
-		<LoadScript
-			googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-			libraries={libraries}
-			onLoad={onLoad}
-			loadingElement={<div>Loading Google Maps...</div>}
-		>
-			<div className='weatherContainer'>
-				<h1>
-					Weather App <span className='tagline'>with 5 day forecast</span>
-			</h1>
-				<div className='searchSection'>
-					<div className='searchInputs'>
-						<input
-							value={address}
-							onChange={handleInputChange}
-							onClick={handleClick}
-							placeholder='Enter a City ...'
-							className='weatherSearchInput'
-							aria-label='weather-search-input'
-						/>
-						<input
-							className='weatherGoBtn'
-							type='submit'
-							value='Go!'
-							onClick={getData}
-						/>
-					</div>
-					{showSuggestions && (
-						<div className='autocompleteDropdownContainer'>
-							{suggestions.map((suggestion) => (
-								<div
-									key={suggestion.place_id}
-									className='suggestion-item'
-									style={{
-										backgroundColor: '#ffffff',
-										cursor: 'pointer',
-										padding: '10px 0px'
-									}}
-									onMouseEnter={(e) => {
-										e.target.style.backgroundColor = 'rgba(51, 89, 153,0.75)';
-										e.target.style.color = '#ffffff';
-									}}
-									onMouseLeave={(e) => {
-										e.target.style.backgroundColor = '#ffffff';
-										e.target.style.color = 'initial';
-									}}
-									onClick={() => handleSelect(suggestion.place_id, suggestion.description)}
-								>
-									<span>{suggestion.description}</span>
-								</div>
-							))}
-						</div>
-					)}
+		<div className='weatherContainer'>
+			<h1>
+				Weather App <span className='tagline'>with 5 day forecast</span>
+		</h1>
+			<div className='searchSection'>
+				<div className='searchInputs'>
+					<input
+						value={address}
+						onChange={handleInputChange}
+						onClick={handleClick}
+						placeholder='Enter a City ...'
+						className='weatherSearchInput'
+						aria-label='weather-search-input'
+					/>
+					<input
+						className='weatherGoBtn'
+						type='submit'
+						value='Go!'
+						onClick={getData}
+					/>
 				</div>
-				<div className='weatherOutput'></div>
-				<div id='forecastOutput'></div>
+				{showSuggestions && (
+					<div className='autocompleteDropdownContainer'>
+						{suggestions.map((suggestion) => (
+							<div
+								key={suggestion.place_id}
+								className='suggestion-item'
+								style={{
+									backgroundColor: '#ffffff',
+									cursor: 'pointer',
+									padding: '10px 0px'
+								}}
+								onMouseEnter={(e) => {
+									e.target.style.backgroundColor = 'rgba(51, 89, 153,0.75)';
+									e.target.style.color = '#ffffff';
+								}}
+								onMouseLeave={(e) => {
+									e.target.style.backgroundColor = '#ffffff';
+									e.target.style.color = 'initial';
+								}}
+								onClick={() => handleSelect(suggestion.place_id, suggestion.description)}
+							>
+								<span>{suggestion.description}</span>
+							</div>
+						))}
+					</div>
+				)}
 			</div>
-		</LoadScript>
+			<div className='weatherOutput'></div>
+			<div id='forecastOutput'></div>
+		</div>
 	);
 };
 

@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClipboard } from '@fortawesome/free-solid-svg-icons';
 
 const PasswordGenerator = () => {
-	const [length, setLength] = useState();
-	const [upper, setUpper] = useState();
-	const [lower, setLower] = useState();
-	const [numbers, setNumbers] = useState();
-	const [symbols, setSymbols] = useState();
+	const [length, setLength] = useState(12);
+	const [upper, setUpper] = useState(true);
+	const [lower, setLower] = useState(true);
+	const [numbers, setNumbers] = useState(true);
+	const [symbols, setSymbols] = useState(true);
 
 	function handleLengthChange(e) {
 		if (localStorage.getItem('length') !== null) {

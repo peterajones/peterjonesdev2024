@@ -19,7 +19,7 @@ export default function Navbar() {
 	// const { data: session, status } = useSession();
 	// const user = session;
 	const session = null;
-	const [theme, setTheme] = useState('');
+	const [theme, setTheme] = useState('light');
 	const [modal, setModal] = useState(false);
 
 	const toggleTheme = e => {
@@ -44,13 +44,15 @@ export default function Navbar() {
 
 	useEffect(() => {
 		const localTheme = localStorage.getItem('theme');
-		setTheme(localTheme);
-
+		
 		if (localTheme === null || localTheme === '') {
 			localStorage.setItem('theme', 'light');
 			setTheme('light');
-		} else if (localTheme === 'dark') {
-			document.body.classList.add('dark');
+		} else {
+			setTheme(localTheme);
+			if (localTheme === 'dark') {
+				document.body.classList.add('dark');
+			}
 		}
 	}, []);
 
@@ -60,7 +62,7 @@ export default function Navbar() {
 				<div className='navContent'>
 					<div className='logo'>
 						{theme === 'light' ? (
-							<Link href='/' legacyBehavior>
+							<Link href='/'>
 								<Image
 									src='/images/my-logo.png'
 									alt='logo'
@@ -69,7 +71,7 @@ export default function Navbar() {
 								/>
 							</Link>
 						) : (
-							<Link href='/' legacyBehavior>
+							<Link href='/'>
 								<Image
 									src='/images/my-logo-dark.png'
 									alt='logo'
@@ -84,7 +86,7 @@ export default function Navbar() {
 						<Link href='/news'>News</Link>
 						<Link href='/contact'>Contact</Link>
 						{session ? (
-							<Link href='/account' className='avatar-link' legacyBehavior>
+							<Link href='/account' className='avatar-link'>
 								{session.user.image ? (
 									<Image
 										src={session.user.image}

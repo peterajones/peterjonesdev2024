@@ -115,9 +115,7 @@ label input:checked + span::after {
 `;
 
 	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			Prism.highlightAll();
-		}
+		Prism.highlightAll();
 	}, []);
 
 	return (

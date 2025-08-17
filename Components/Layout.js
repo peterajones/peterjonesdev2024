@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import MapsProvider from './MapsProvider';
 // import UpdatesList from './UpdatesList';
 // import Script from 'next/script';
 
@@ -14,11 +15,13 @@ const Layout = ({ children }) => {
 					content='Web Development, HTML5, CSS3, CSS, JavaScript, RSS News Feeds, ReactJS, NextJS'
 				/>
 			</Head>
-			<Navbar />
-			<div className='wrapper'>
-				{children}	
-			</div>
-			<Footer />
+			<MapsProvider>
+				<Navbar />
+				<div className='wrapper'>
+					{children}	
+				</div>
+				<Footer />
+			</MapsProvider>
 		</>
 	);
 };

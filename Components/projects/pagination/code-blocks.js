@@ -212,9 +212,7 @@ li.card {
 `;
 
 	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			Prism.highlightAll();
-		}
+		Prism.highlightAll();
 	}, []);
 
 	return (
