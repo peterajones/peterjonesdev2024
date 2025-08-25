@@ -14,6 +14,7 @@ import checkboxStyling from "../../public/images/code/checkbox-styling.jpg";
 import pagination from "../../public/images/code/pagination.jpg";
 import passwordGenerator from "../../public/images/code/password-generator.jpeg";
 import weatherApp from "../../public/images/code/weather-app.jpeg";
+import CurrencyConverter from "../../public/images/code/currency-converter.jpg";
 
 export default function Code() {
 	const [didMount, setDidMount] = useState(false);
@@ -40,6 +41,26 @@ export default function Code() {
             <div className={`fade-in ${didMount && "visible"}`}>
                 <h1 className='projects page'>Projects</h1>
                 <ul className='items-container'>
+                    <li className='item'>
+                        <Link href='/projects/currency-converter' passHref legacyBehavior>
+                            <div className="card">
+                                <div className="card-badges">
+                                    <Image src={badgeHTML} alt="HTML" className='tech-badge' width={48} height={16} />
+                                    <Image src={badgeCSS} alt="CSS" className='tech-badge' width={48} height={16} />
+                                    <Image src={badgeJS} alt="JS" className='tech-badge' width={48} height={16} />
+                                </div>
+                                <div className="card-title">
+                                    <span>Currency Converter</span>
+                                </div>
+                                <div className="card-intro truncate">
+                                    <span>A handy currnecy converter</span>
+                                </div>
+                                <div className="card-image">
+                                    <Image src={CurrencyConverter} alt="Currency Converter" />
+                                </div>
+                            </div>
+                        </Link>
+                    </li>
                     <li className='item'>
                         <Link href='/projects/weather-app' passHref legacyBehavior>
                             <div className="card">

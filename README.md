@@ -156,6 +156,51 @@ Ensure all required environment variables are set:
 - `NEXT_PUBLIC_OPENWEATHER_API_KEY` - For weather data
 - `NEXT_PUBLIC_NEWSAPI_KEY` - For news feeds
 
+## New Project Added: Currency Converter
+
+### Overview
+Successfully converted and integrated the Currency Converter project from a standalone Node.js/Express application into the Next.js portfolio structure. This financial tool allows users to convert between 30+ world currencies using real-time exchange rates.
+
+### Key Features
+- **Smart Currency Management**: Users can build custom conversion lists by adding/removing currencies
+- **Dynamic Base Currency System**: Any currency becomes the base when you type in its input field
+- **Real-time Conversions**: Live calculations with proper number formatting as you type
+- **Persistent User Preferences**: localStorage remembers selected currencies between sessions
+- **API Rate Limiting Protection**: Graceful fallback to demo rates when API limits are exceeded
+- **Mobile-Responsive Design**: Optimized layout for all screen sizes
+- **30+ Major Currencies**: Complete with country flag icons for easy identification
+
+### Development History
+- **Source**: Migrated from https://github.com/peterajones/nodejs-currency-converter
+- **Architecture**: Vanilla JavaScript DOM manipulation → React hooks and state management
+- **API Strategy**: Express server endpoint → Direct Next.js client-side API calls
+- **Performance**: Optimized to only call Exchange Rates API when users enter amounts (prevents unnecessary rate limiting)
+- **Styling**: Custom CSS → SASS with `.cc` namespace to prevent conflicts with other projects
+- **Error Handling**: Robust fallback system for API failures and rate limits
+
+### Technical Implementation
+- **Component**: `Components/projects/currency-converter/CurrencyConverter.js`
+- **Page**: `pages/projects/currency-converter/index.js`
+- **Styling**: `styles/partials/_currency-converter.scss`
+- **API**: Exchange Rates API (exchangeratesapi.io) with `NEXT_PUBLIC_EXCHANGE_RATES_API_KEY`
+
+### Usage
+1. Visit `/projects/currency-converter` to access the tool
+2. Default currencies (CAD, USD, EUR, JPY) load automatically on first visit
+3. Click "Add Currency" to browse and select from 30+ available currencies
+4. Type any amount in any currency field to see live conversions across all selected currencies
+5. Remove currencies with the × button, reset amounts, or clear the entire list as needed
+6. Your currency selections are automatically saved and restored on future visits
+
+### Current Status
+- ✅ Fully functional with complete React conversion
+- ✅ Responsive design with proper mobile optimization
+- ✅ localStorage persistence working correctly
+- ✅ Rate limiting protection with demo mode fallback
+- ⏸️ Live API calls temporarily paused due to monthly rate limit (resets next month)
+
+---
+
 ## Documentation, videos, how-to's etc...
 1. [YouTube tutorial](https://www.youtube.com/watch?v=AdcktATbd-I)
 2. [NextAuth.js Documentation](https://next-auth.js.org/)

@@ -113,6 +113,12 @@ code.inline {
 .dark .code-content p {
 	color: #f4f4f4;
 }
+.code-description-open li {
+  color: #000;
+}
+.dark .code-description-open li {
+  color: #fff;
+}
 .code-top h1 {
 	top: 10px;
 	position: relative;

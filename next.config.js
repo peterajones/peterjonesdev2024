@@ -23,7 +23,7 @@ module.exports = {
               style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
               font-src 'self' https://fonts.gstatic.com;
               img-src 'self' data: https: blob:;
-              connect-src 'self' https://api.openweathermap.org https://maps.googleapis.com https://jsonplaceholder.typicode.com https://my-dev-proxy-server.herokuapp.com https://www.cbc.ca https://search.cnbc.com;
+              connect-src 'self' https://api.openweathermap.org https://api.exchangeratesapi.io https://maps.googleapis.com https://jsonplaceholder.typicode.com https://my-dev-proxy-server.herokuapp.com https://www.cbc.ca https://search.cnbc.com;
               frame-src 'self' https://maps.google.com;
             `.replace(/\s{2,}/g, ' ').trim()
           }
