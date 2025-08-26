@@ -26,7 +26,7 @@ const MapsProvider = ({ children }) => {
 	}
 
 	if (!apiKey) {
-		return <div>Loading Google Maps...</div>;
+		// return <div>Loading Google Maps...</div>;
 	}
 
 	return (
