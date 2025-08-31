@@ -7,6 +7,7 @@ import badgeHTML from "../../public/images/code/badge-HTML.png";
 import badgeCSS from "../../public/images/code/badge-CSS.png";
 import badgeJS from "../../public/images/code/badge-JS.png";
 import badgeREACT from "../../public/images/code/badge-REACT.png";
+import badgeNODE from "../../public/images/code/badge-Nodejs.png";
 import reactClockCode from "../../public/images/code/react-clock-code.jpg";
 import rollupCounter from "../../public/images/code/rollup-counter.jpg";
 import pizzaPie from "../../public/images/code/pizza-pie.jpg";
@@ -48,6 +49,7 @@ export default function Code() {
                                     <Image src={badgeHTML} alt="HTML" className='tech-badge' width={48} height={16} />
                                     <Image src={badgeCSS} alt="CSS" className='tech-badge' width={48} height={16} />
                                     <Image src={badgeJS} alt="JS" className='tech-badge' width={48} height={16} />
+                                    <Image src={badgeNODE} alt="NODE" className='tech-badge' width={48} height={16} />
                                 </div>
                                 <div className="card-title">
                                     <span>Currency Converter</span>
